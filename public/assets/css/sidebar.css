@@ -1,0 +1,293 @@
+/* Sidebar y Panel de Vendedor/Admin */
+:root {
+  --sidebar-width: 280px;
+  --dark-bg: #1a1a1a;
+  --primary-color: #ffc107;
+  --transition-base: all 0.3s ease;
+  --border-radius: 8px;
+  --accent-red: #dc3545;
+}
+
+.sidebar-profile {
+  background-color: var(--dark-bg, #1a1a1a);
+  min-height: calc(100vh - 76px); /* Restar altura del navbar */
+  width: var(--sidebar-width, 280px);
+  position: fixed !important;
+  top: 76px; /* Altura aproximada del navbar */
+  left: 0;
+  z-index: 9999; /* Asegurar que este encima del contenido pero debajo del modal */
+  transition: var(--transition-base, all 0.3s ease);
+  overflow-y: auto; /* Permitir scroll si el contenido es largo */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de usuario en sidebar */
+.sidebar-user {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-user .avatar {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-user .avatar:hover {
+  transform: scale(1.05);
+  border-color: var(--primary-color);
+}
+
+.nav-header {
+  opacity: 0.7;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+/* Navegación principal del sidebar */
+.sidebar-nav {
+  padding: 1rem;
+}
+
+.sidebar-nav .nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.sidebar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-weight: var(--font-weight-medium);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+  margin-bottom: 0.25rem;
+  display: flex !important; /* Force flex */
+  align-items: center;
+  text-decoration: none;
+  width: 100%;
+}
+
+.sidebar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff !important;
+  transform: translateX(3px);
+}
+
+.sidebar-nav .nav-link.active {
+  background-color: var(--primary-color) !important;
+  color: #000 !important;
+  font-weight: var(--font-weight-bold);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.sidebar-nav .nav-link i {
+  width: 20px;
+  text-align: center;
+  margin-right: 0.75rem;
+  font-size: 1.1em;
+}
+
+/* Badge de notificaciones */
+.sidebar-nav .nav-badge {
+  background-color: var(--accent-red);
+  color: #fff;
+  border-radius: 50rem;
+  padding: 0.25em 0.6em;
+  font-size: 0.7em;
+  font-weight: 700;
+  margin-left: auto;
+  line-height: 1;
+}
+
+/* Toggle para móvil */
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: var(--z-modal);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+}
+/* Estado colapsado (Desktop) */
+@media (min-width: 768px) {
+  .sidebar-profile.collapsed {
+    width: 80px;
+  }
+
+  .sidebar-profile.collapsed .sidebar-brand,
+  .sidebar-profile.collapsed .user-name,
+  .sidebar-profile.collapsed .user-role,
+  .sidebar-profile.collapsed .nav-text,
+  .sidebar-profile.collapsed .nav-badge,
+  .sidebar-profile.collapsed .nav-header,
+  .sidebar-profile.collapsed .sidebar-section-title {
+    display: none !important;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .sidebar-profile.collapsed .sidebar-user {
+    padding: 1rem 0;
+  }
+
+  .sidebar-profile.collapsed .avatar {
+    width: 40px;
+    height: 40px;
+    border-width: 2px;
+  }
+
+  .sidebar-profile.collapsed .nav-link {
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .sidebar-profile.collapsed .nav-link i {
+    margin-right: 0;
+    font-size: 1.25rem;
+  }
+}
+
+/* Ajuste del contenido principal cuando el sidebar colapsa */
+.main-content-with-sidebar {
+  padding-left: 0; /* Reset */
+  transition: margin-left var(--transition-base, all 0.3s ease);
+  min-height: calc(100vh - 76px);
+  background-color: var(--light-bg, #f8f9fa);
+}
+
+@media (min-width: 768px) {
+  .main-content-with-sidebar {
+    margin-left: var(--sidebar-width, 280px);
+  }
+
+  .main-content-with-sidebar.collapsed {
+    margin-left: 80px;
+  }
+}
+
+/* Estado activo en móvil */
+.sidebar-profile.mobile-active {
+  transform: translateX(0);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 990;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-base);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Transiciones suaves */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Estados responsive */
+@media (max-width: 768px) {
+  .sidebar-profile {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-profile.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-toggle {
+    display: block;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .main-content-with-sidebar {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar-user {
+    padding: 1rem;
+  }
+
+  .sidebar-nav {
+    padding: 0 0.5rem;
+  }
+
+  .sidebar-nav .nav-link {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Animaciones de entrada */
+.sidebar-profile {
+  animation: slideInLeft 0.3s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Estados para accesibilidad */
+.sidebar-nav .nav-link:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Colapso automático en scroll */
+.sidebar-profile.collapsed {
+  width: 70px;
+}
+
+.sidebar-profile.collapsed .sidebar-user-text,
+.sidebar-profile.collapsed .nav-text {
+  display: none;
+}
+
+.sidebar-profile.collapsed .sidebar-nav .nav-link {
+  justify-content: center;
+  padding: 0.875rem;
+}
+
+.sidebar-profile.collapsed .sidebar-nav .nav-link i {
+  margin: 0;
+}
