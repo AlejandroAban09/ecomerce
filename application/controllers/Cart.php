@@ -30,12 +30,22 @@ class Cart extends CI_Controller
         $qty = $this->input->post('qty');
 
         if (!$product_id || !$qty) {
+            if ($this->input->is_ajax_request()) {
+                header('Content-Type: application/json');
+                echo json_encode(['status' => 'error', 'message' => 'Datos incompletos.']);
+                return;
+            }
             redirect('shop');
         }
 
         $product = $this->Product_model->get_product_by_id($product_id);
 
         if (!$product) {
+            if ($this->input->is_ajax_request()) {
+                header('Content-Type: application/json');
+                echo json_encode(['status' => 'error', 'message' => 'Producto no encontrado.']);
+                return;
+            }
             show_404();
         }
 
@@ -57,6 +67,16 @@ class Cart extends CI_Controller
         $this->cart->insert($data);
 
         $this->save_cart_to_cookie(); // <-- Guardar en Cookie
+
+        if ($this->input->is_ajax_request()) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Producto agregado al carrito.',
+                'cart_count' => $this->cart->total_items()
+            ]);
+            return;
+        }
 
         $this->session->set_flashdata('success', 'Producto agregado al carrito.');
         redirect($this->agent->referrer() ?: 'shop');

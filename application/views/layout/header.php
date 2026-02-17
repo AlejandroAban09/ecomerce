@@ -92,7 +92,7 @@
 
                     <a href="<?= base_url('cart') ?>" class="nav-icon position-relative ms-3">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary text-dark" style="font-size: 0.6rem;"><?= $this->cart->total_items(); ?></span>
+                        <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary text-dark" style="font-size: 0.6rem;"><?= $this->cart->total_items(); ?></span>
                     </a>
                 </div>
             </div>

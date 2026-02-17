@@ -19,7 +19,7 @@ $this->load->view('layout/header', $header_data);
             </div>
             <div class="col-lg-6 d-none d-lg-block">
                 <!-- Placeholder para imagen de héroe -->
-                <img src="https://res.cloudinary.com/demo/image/upload/v1691684340/samples/ecommerce/analog-classic.jpg" alt="Producto Hero" class="img-fluid rounded shadow-lg" style="transform: rotate(-5deg); border: 5px solid rgba(255,255,255,0.1);">
+                <img src="https://res.cloudinary.com/demo/image/upload/v1691684340/samples/ecommerce/analog-classic.jpg" alt="Producto Hero" class="img-fluid rounded shadow-lg" style="transform: rotate(-5deg); border: 5px solid rgba(255,255,255,0.1);" loading="lazy">
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@ $this->load->view('layout/header', $header_data);
                     <span class="promo-tag">Sale Up To 30% Off</span>
                     <h3 class="mb-4">Latest Sound System</h3>
                     <a href="#" class="btn btn-outline-light btn-sm w-50">VER OFERTA</a>
-                    <img src="https://res.cloudinary.com/demo/image/upload/v1691684340/samples/ecommerce/leather-bag-gray.jpg" class="img-fluid mt-3 opacity-50" style="mix-blend-mode: overlay;">
+                    <img src="https://res.cloudinary.com/demo/image/upload/v1691684340/samples/ecommerce/leather-bag-gray.jpg" class="img-fluid mt-3 opacity-50" style="mix-blend-mode: overlay;" loading="lazy">
                 </div>
             </div>
 
