@@ -111,7 +111,7 @@ class Auth extends CI_Controller
         if ($this->session->userdata('logged_in')) {
             redirect('home');
         }
-
+        //Validaciones para el registro
         $this->form_validation->set_rules('username', 'Usuario', 'required|min_length[3]|is_unique[users.username]', [
             'is_unique' => 'Este nombre de usuario ya está en uso.'
         ]);
@@ -120,18 +120,18 @@ class Auth extends CI_Controller
         ]);
         $this->form_validation->set_rules('password', 'Contraseña', 'required|min_length[6]');
         $this->form_validation->set_rules('passconf', 'Confirmar Contraseña', 'required|matches[password]');
-
+        //Si las validaciones no se cumplen, mostrar el formulario
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('auth/register');
         } else {
-            // Preparar datos
+            //Preparar datos
             $data = array(
                 'username' => $this->input->post('username'),
                 'email' => $this->input->post('email'),
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'role' => 'user'
             );
-
+            //Crear usuario
             if ($this->User_model->create_user($data)) {
                 $this->session->set_flashdata('success', 'Cuenta creada exitosamente. Por favor inicia sesión.');
                 redirect('auth/login');
