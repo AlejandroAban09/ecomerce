@@ -18,18 +18,16 @@ class Auth extends CI_Controller
         $this->load->model('User_model');
         $this->load->library('form_validation');
     }
-
+    // funcion para iniciar sesion
     public function login()
     {
         // Si ya está logueado, redirigir al home
         if ($this->session->userdata('logged_in')) {
             redirect('home');
         }
-
         // Reglas de validación
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('password', 'Contraseña', 'required');
-
         if ($this->form_validation->run() === FALSE) {
             // Mostrar formulario con errores (si los hay)
             $this->load->view('auth/login');
@@ -37,9 +35,7 @@ class Auth extends CI_Controller
             // Intentar Login
             $email = $this->input->post('email');
             $password = $this->input->post('password');
-
             $user = $this->User_model->login($email, $password);
-
             if ($user) {
                 // Crear sesión
                 $session_data = array(
@@ -50,29 +46,24 @@ class Auth extends CI_Controller
                     'logged_in' => TRUE
                 );
                 $this->session->set_userdata($session_data);
-
                 // --- MERGE GUEST CART (Fusionar Carrito de Invitado) ---
                 if (get_cookie('guest_cart')) {
                     $json_cart = base64_decode(get_cookie('guest_cart'));
                     $guest_items = json_decode($json_cart, true);
-
                     if (!empty($guest_items)) {
                         $this->load->library('cart');
                         $this->load->model('Product_model');
-
                         // Obtener contenido actual del carrito de sesión para verificar duplicados
                         $current_cart = $this->cart->contents();
                         $current_product_ids = [];
                         foreach ($current_cart as $param) {
                             $current_product_ids[] = $param['id'];
                         }
-
                         foreach ($guest_items as $item) {
                             // Si el producto YA está en el carrito de sesión, lo saltamos para no duplicar
                             if (in_array($item['id'], $current_product_ids)) {
                                 continue;
                             }
-
                             $product = $this->Product_model->get_product_by_id($item['id']);
                             if ($product) {
                                 $data = array(
@@ -89,11 +80,7 @@ class Auth extends CI_Controller
                             }
                         }
                     }
-                    // Opcional: Borrar cookie después de fusionar (o mantenerla de respaldo)
-                    // delete_cookie('guest_cart');
                 }
-                // -------------------------------------------------------
-
                 // Mensaje de éxito
                 $this->session->set_flashdata('success', '¡Bienvenido ' . $user->username . '!');
                 redirect('home');
@@ -105,6 +92,7 @@ class Auth extends CI_Controller
         }
     }
 
+    // funcion para registrar un usuario
     public function register()
     {
         // Si ya está logueado, redirigir
@@ -142,6 +130,7 @@ class Auth extends CI_Controller
         }
     }
 
+    // funcion para cerrar sesion
     public function logout()
     {
         $this->session->sess_destroy();
